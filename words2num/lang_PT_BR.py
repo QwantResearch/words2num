@@ -170,11 +170,11 @@ def compute(tokens):
     outputs = []
     last_placevalue = None
     for token in tokens:
-        print("tok({0}) out({1})".format(token, fst.value))
+        # print("tok({0}) out({1})".format(token, fst.value))
         out = fst.transition(token)
 
         # DEBUG
-        print("tok({0}) out({1}) val({2})".format(token, out, fst.value))
+        # print("tok({0}) out({1}) val({2})".format(token, out, fst.value))
         if out:
             outputs.append(out)
             if last_placevalue and last_placevalue <= placevalue(outputs[-1]):
@@ -187,7 +187,7 @@ def compute(tokens):
         raise NumberParseException("Invalid sequence "
                                    "{0}".format(outputs))
     # DEBUG
-    print("-> {0}".format(outputs))
+    # print("-> {0}".format(outputs))
     return sum(outputs)
 
 
