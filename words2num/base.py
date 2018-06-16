@@ -2,11 +2,16 @@
 """Denormalize numbers, given normalized input.
 """
 from . import lang_EN_US
+from . import lang_ES
+from . import lang_PT_BR
 
 
 CONVERTER_CLASSES = {
     'en': lang_EN_US.evaluate,
     'en_US': lang_EN_US.evaluate,
+    'pt_BR': lang_PT_BR.evaluate,
+    'pt-br': lang_PT_BR.evaluate,
+    'es': lang_ES.evaluate,
 }
 
 
