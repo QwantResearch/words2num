@@ -139,7 +139,7 @@ class FST:
 
     def transition(self, token):
         value, label = token
-        print(self.state, label)
+        # print(self.state, label)
         
         try:
             edge_fn = self.edges[(self.state, label)]
