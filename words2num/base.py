@@ -4,6 +4,7 @@
 from . import lang_EN_US
 from . import lang_ES
 from . import lang_PT_BR
+from . import lang_FR
 
 
 CONVERTER_CLASSES = {
@@ -12,6 +13,7 @@ CONVERTER_CLASSES = {
     'pt_BR': lang_PT_BR.evaluate,
     'pt-br': lang_PT_BR.evaluate,
     'es': lang_ES.evaluate,
+    'fr': lang_FR.evaluate,
 }
 
 
