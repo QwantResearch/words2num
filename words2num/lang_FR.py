@@ -38,6 +38,7 @@ VOCAB = {
     'mille': (10 ** 3, 'X'),
     'million': (10 ** 6, 'X'),
     'milliard': (10 ** 9, 'X'),
+    'billion': (10 ** 12, 'X'),
     'virgule': (None, 'V'),
     'moins': (None, '-'),
     'pi': (3.1415926535898, 'D')
@@ -54,6 +55,8 @@ class FST:
             self.value += n
 
         def f_mul(self, n):
+            if self.value == 0:
+                self.value = 1
             output = self.value * n
             self.value = 0
             return output
@@ -93,7 +96,7 @@ class FST:
             ('S', 'T'): f_add,     # 90
             ('S', 'M'): f_add,     # 19
             ('S', 'H'): f_add,     # 100
-            ('S', 'X'): f_add,     # 1000
+            ('S', 'X'): f_mul,     # 1000
             ('S', 'A'): f_none,    # 100
             ('D', 'H'): f_mul_hundred,     # 900
             ('D', 'X'): f_mul,     # 9000
@@ -113,8 +116,9 @@ class FST:
             ('X', 'D'): f_add,     # 9009
             ('X', 'T'): f_add,     # 9090
             ('X', 'M'): f_add,     # 9019
-            ('X', 'A'): f_add,     # 9100
+            ('X', 'H'): f_add,     # 9100
             ('X', 'F'): f_ret,     # 9000
+            ('X', 'X'): f_add,     # 1000100
             ('Z', 'F'): f_ret,     # 0
             ('A', 'H'): f_hundred,  # 100
             ('D', 'T'): f_frenchy_80,  # 80
@@ -172,6 +176,13 @@ def compute(tokens):
     return sum(outputs)
 
 
+def compute_after_coma(tokens):
+    i = 0
+    while (tokens[i] ==(0, 'Z')):
+        i += 1
+
+    return "0" * i + str(compute(tokens[i:]))
+
 def evaluate(text):
     tokens = tokenize(text)
     if not tokens:
@@ -188,6 +199,6 @@ def evaluate(text):
         before_coma = tokens[:(tokens.index(coma_token))]
         after_coma = tokens[tokens.index(coma_token) + 1:]
 
-        return sign * eval(str(compute(before_coma)) + "." + str(compute(after_coma)))
+        return sign * eval(str(compute(before_coma)) + "." + compute_after_coma(after_coma))
     else:
         return sign * compute(tokens)
